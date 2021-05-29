@@ -1,0 +1,21 @@
+name: Test
+on: [push, pull_request]
+
+jobs:
+  Test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+        with:
+          persist-credentials: false
+
+      - name: Test Setup
+        run: |
+          pip3 install -U pip setuptools
+          pip3 install -r requirements.txt
+
+      - name: Test
+        run: |
+          python discourse_search_atom.py --url "https://discuss.python.org/" --name "Discussions on Python.org: cupy" --query "cupy order:latest"

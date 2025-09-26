@@ -34,7 +34,10 @@ def get_records(url, query):
         query=urllib.parse.quote(query),
     )
     resp = requests.get(search_url)
-    data = json.loads(resp.text)
+    try:
+        data = json.loads(resp.text)
+    except Exception as e:
+        raise RuntimeError(f'failed to parse: {resp.text}') from e
 
     topics = {x['id']: x for x in data['topics']}
     records = []
